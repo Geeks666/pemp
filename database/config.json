@@ -1,0 +1,10 @@
+{
+  "development": {
+    "dialect": "mysql",
+    "host": "39.105.72.211",
+    "port": "3306",
+    "username": "root",
+    "password": "123456",
+    "database": "pemp"
+  }
+}

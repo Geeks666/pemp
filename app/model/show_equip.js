@@ -9,12 +9,13 @@ module.exports = app => {
     updated_at: { type: DATE, defaultValue: NOW},
     name: STRING(255),
     show_id: INTEGER,
+    status: INTEGER,
     equip_id: INTEGER,
-    use_count: INTEGER
+    // use_count: INTEGER
   });
   ShowEquip.associate = function() {
         app.model.ShowEquip.belongsTo(app.model.Show, { foreignKey: 'show_id', targetKey: 'id' });
-        //app.model.ShowEquip.belongsTo(app.model.Equip, { foreignKey: 'equip_id', targetKey: 'id' });
+        app.model.ShowEquip.belongsTo(app.model.Equip, { foreignKey: 'equip_id', targetKey: 'id', as: 'u' });
   }
   return ShowEquip;
 };

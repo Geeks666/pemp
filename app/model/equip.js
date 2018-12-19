@@ -12,7 +12,7 @@ module.exports = app => {
     equip_name: STRING(255),
     brand: STRING(255),
     type: STRING(255),
-    count: INTEGER,
+    status: INTEGER,
     remark: STRING(255)
   });
     Equip.associate = function() {

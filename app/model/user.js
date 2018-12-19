@@ -9,6 +9,7 @@ module.exports = app => {
     updated_at: { type: DATE, allowNull: false, defaultValue: NOW},
     name: { type: STRING(255), allowNull: false},
     password: { type: STRING(255), allowNull: false},
+    number: STRING(255),
     company: STRING(255),
     postcode: STRING(255),
     address: STRING(255),

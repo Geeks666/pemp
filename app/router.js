@@ -15,6 +15,7 @@ module.exports = app => {
   router.post("setUserInfo", "/api/user", controller.user.update);
   router.post("setUserPass", "/api/pass", controller.user.pass);
 
+  router.get("getCheckEquipsList", "/api/check_equips", controller.equip.check_search);
   router.get("getEquipsList", "/api/equips", controller.equip.search);
   router.post("addEquip", "/api/equips/add", controller.equip.add);
   router.post("updateEquip", "/api/equips/update", controller.equip.update);
@@ -24,19 +25,30 @@ module.exports = app => {
   router.post("addShow", "/api/shows/add", controller.show.add);
   router.post("deleteShow", "/api/shows/delete", controller.show.delete);
   router.post("updateShow", "/api/shows/update", controller.show.update);
+  router.post("ShowSearch", "/api/shows/list", controller.show.searchShow);
 
-  router.get("selectedEquip", "/api/shows/selected_equips", controller.show.selected_equips);
-  router.get("selectionEquips", "/api/shows/selection_equips", controller.show.selection_equips);
+  router.get("selectedEquip", "/api/shows/selected_equips", controller.showEquip.selected_equips);
+  router.get("selectionEquips", "/api/shows/selection_equips", controller.showEquip.selection_equips);
 
-  router.post("selectedEquipAdd", "/api/shows/selected_equip_add", controller.show.selected_equip_add);
-  router.post("selectedEquipUpdate", "/api/shows/selected_equip_update", controller.show.selected_equip_update);
-  router.post("selectedEquipDel", "/api/shows/selected_equip_delete", controller.show.selected_equip_delete);
+  router.post("selectedEquipAdd", "/api/shows/selected_equip_add", controller.showEquip.selected_equip_add);
+  router.post("selectedEquipUpdate", "/api/shows/selected_equip_update", controller.showEquip.selected_equip_update);
+  router.post("selectedEquipDel", "/api/shows/selected_equip_delete", controller.showEquip.selected_equip_delete);
 
-  router.get("getResidueEquips", "/api/shows/residue_equips", controller.show.residue_equips);
+  router.get("getResidueEquips", "/api/shows/residue_equips", controller.showEquip.residue_equips);
+  router.post("output_scan", "/api/scan/output", controller.scan.output);
+  router.post("putaway_scan", "/api/scan/putaway", controller.scan.putaway);
   /* app */
+  /* test */
+  router.post("searchCheck", "/api/check/search", controller.scan.check_search);
+  /*store*/
+  router.post("searchStore", "/api/store/serach", controller.store.serach);
+  router.post("createStore", "/api/store/create", controller.store.create);
+  router.post("deleteStore", "/api/store/delete", controller.store.delete);
+  router.post("updateStore", "/api/store/update", controller.store.update);
+  router.post("getNoticeList", "/api/notice/serach", controller.store.noticeSerach);
 
   router.get("getMsg", "/api/app/msg", controller.box.msg);
-  router.post("createNumber", "/api/shows/greate_check", controller.show.greateCheck);
+  //router.post("createNumber", "/api/shows/greate_check", controller.showEquip.greateCheck);
   router.post("createbox", "/api/app_box/create", controller.box.create);
 
 
@@ -48,7 +60,7 @@ module.exports = app => {
 
 
   router.post("getcheckequip", "/api/app/check_equip", controller.box.check_equip);
-  // router.post("updateNumber", "/api/shows/update_check", controller.show.updateCheck);
+  // router.post("updateNumber", "/api/shows/update_check", controller.showEquip.updateCheck);
 
 
 

@@ -62,8 +62,6 @@ class UserController extends BaseController {
   async login() {
     const { ctx } = this;
     const { name, password } = ctx.query;
-      console.log(name);
-      console.log(password);
     let data = {};
     if (name == "" || password == "") {
       data = {
@@ -86,7 +84,8 @@ class UserController extends BaseController {
           };
           ctx.cookies.set("pempToken", user.name, {
             httpOnly: true, // 默认就是 true
-            encrypt: true // 加密传输
+            encrypt: true, // 加密传输
+            maxAge: 2*60*60*1000//两个小时过期
             // maxAge: 2*60*60*1000//两个小时过期
           });
           this.success(data);

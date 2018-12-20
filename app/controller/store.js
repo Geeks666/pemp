@@ -100,7 +100,6 @@ class StoreController extends BaseController {
       .catch(err => {
         this.failed(data);
       });
-    console.log(number);
     await ctx.model.Overflow.findAll({
       attributes: ['number', ctx.model.col('storeAlias.address'), ctx.model.col('numberAlias.equip_name')],
       where: {
@@ -108,6 +107,39 @@ class StoreController extends BaseController {
           $like: number + '%'
         }
       },
+      include: [{
+        model: ctx.model.Store,
+        as: 'storeAlias',
+        attributes: []
+      }, {
+        model: ctx.model.Equip,
+        as: 'numberAlias',
+        attributes: []
+      }],
+      raw: true
+    })
+      .then(async res => {
+        console.log(res)
+        if (res) {
+          data.result = res;
+        } else {
+          data.result = {};
+        }
+        this.success(data);
+      })
+      .catch(err => {
+        this.failed(data);
+      });
+  }
+
+  async noticeOtherSerach() {
+    const {ctx} = this;
+    const name = ctx.request.name;
+    let data = {};
+    let number = "";
+    await ctx.model.Overflow.findAll({
+      attributes: ['number', ctx.model.col('storeAlias.address'), ctx.model.col('numberAlias.equip_name')],
+      where: { name },
       include: [{
         model: ctx.model.Store,
         as: 'storeAlias',

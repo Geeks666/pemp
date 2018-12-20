@@ -11,8 +11,10 @@ class ScanController extends BaseController {
     let param = (new Function("return " + params.optput))();
     let resultData = param.result;
     let number;
+
     for (let i = 0; i < resultData.length; i++) {
       let eq_id = -1;
+      let revsave = "";
       await ctx.model.Equip.findOne({where: {"number": resultData[i].epc}})
         .then(async res => {
           if (res) {
@@ -30,8 +32,7 @@ class ScanController extends BaseController {
             console.log(res.dataValues.number)
             if (res) {
               reg = new RegExp("^" + res.dataValues.number)
-            }
-            ;
+            };
           })
           .catch(err => {
             console.log(err);
@@ -39,16 +40,16 @@ class ScanController extends BaseController {
         if (!reg.test(resultData[i].epc)) {
           number = resultData[i].epc;
           let door_id = param.reader_name;
-          let revsave = "";
-          await ctx.model.Overflow.findOne({number}).then(cres => {
-            revsave = cres.dataValues.number;
+          await ctx.model.Overflow.findOne({where:{number}}).then(async cres => {
+            if(cres){
+              revsave = cres.dataValues.number;
+            }
           })
             .catch(err => {
               console.log(err);
             });
           ;
-          console.log(revsave);
-          // if(!revsave.dataValues.number){
+          if(!revsave){
           await ctx.model.Overflow.create({
             name, number, door_id
           })
@@ -58,8 +59,7 @@ class ScanController extends BaseController {
             .catch(err => {
               console.log(err);
             });
-          // }
-
+          }
         } else {
           await ctx.model.ShowEquip.update({
             "status": 2
@@ -67,7 +67,6 @@ class ScanController extends BaseController {
             where: {equip_id: eq_id}
           })
             .then(async res => {
-              console.log('success......')
               this.success(data);
             })
             .catch(err => {
@@ -117,43 +116,6 @@ class ScanController extends BaseController {
     }
   }
 
-  async close() {
-    const {ctx} = this;
-    const name = ctx.request.name;
-    // const { show_id, equip_id } = ctx.request.body;
-    let data = {};
-    await ctx.model.ShowEquip.findOne({where: {name, show_id, equip_id}})
-      .then(res => {
-        console.log(res)
-        if (res) {
-          data.msg = "演出已有该设备";
-          this.failed(data);
-        }
-      })
-      .catch(err => {
-        this.failed(data);
-      });
-  }
-
-  async index() {
-    const {ctx} = this;
-    let status = 1;
-    const name = ctx.request.name;
-    const {show_id, equip_id} = ctx.request.body;
-    let data = {};
-    await ctx.model.ShowEquip.findOne({where: {name, show_id, equip_id}})
-      .then(res => {
-        console.log(res)
-        if (res) {
-          data.msg = "演出已有该设备";
-          this.failed(data);
-        }
-      })
-      .catch(err => {
-        this.failed(data);
-      });
-  }
-
   async check_search() {
     const {ctx} = this;
     const name = ctx.request.name;
@@ -176,8 +138,6 @@ class ScanController extends BaseController {
       }
       return where;
     })(name, show_id, status);
-    // where={ name };
-    console.log(where)
     await ctx.model.ShowEquip.findAll({
       attributes: [ctx.model.col('u.number'), ctx.model.col('u.equip_name'), ctx.model.col('u.brand'), ctx.model.col('u.type'), 'status'],
       where: where,

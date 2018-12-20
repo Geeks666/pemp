@@ -46,6 +46,7 @@ module.exports = app => {
   router.post("deleteStore", "/api/store/delete", controller.store.delete);
   router.post("updateStore", "/api/store/update", controller.store.update);
   router.post("getNoticeList", "/api/notice/serach", controller.store.noticeSerach);
+  router.post("getOtherNoticeList", "/api/notice/other/serach", controller.store.noticeOtherSerach);
 
   router.get("getMsg", "/api/app/msg", controller.box.msg);
   //router.post("createNumber", "/api/shows/greate_check", controller.showEquip.greateCheck);
